@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-#adding below option to allow the API access to all domains for testing:
+# added below option to allow the API access to all domains for testing:
 CORS_ORIGIN_ALLOW_ALL=True
 
 # Application definition
@@ -39,12 +39,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # added the restframework, corsheaders and application name
     'rest_framework',
     'corsheaders',
     'FitnessFactoryApp.apps.FitnessfactoryappConfig'
 ]
 
 MIDDLEWARE = [
+    '''
+    added corsheaders - to allow in browser requests to Django app from other origins - this is added in
+    this application for testing purposes and should not be added on production environments due to it's
+    security implications
+    '''
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -79,11 +85,15 @@ WSGI_APPLICATION = 'fitness_factory.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-
+# modified the database connection to mongodb atlas
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'CLIENT': {
+            'host':'mongodb+srv://python_ca2_group:Pythonca2@123@cluster0.sj0kg.mongodb.net/test',
+            'name':'Products',
+            'authMechanism': 'SCRAM-SHA-1'
+        },
     }
 }
 
