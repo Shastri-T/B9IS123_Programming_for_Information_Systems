@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'fitnessfactoryapi'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_45F6A637F3A1458E9630FA376B871A42 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_EDE93A6EEDD44746952F4A5EC71077FB }}
