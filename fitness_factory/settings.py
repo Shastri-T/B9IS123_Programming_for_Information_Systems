@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import urllib.parse
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -46,11 +46,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    '''
-    added corsheaders - to allow in browser requests to Django app from other origins - this is added in
-    this application for testing purposes and should not be added on production environments due to it's
-    security implications
-    '''
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -90,8 +85,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'CLIENT': {
-            'host':'mongodb+srv://python_ca2_group:Pythonca2@123@cluster0.sj0kg.mongodb.net/test',
-            'name':'Products',
+            #added urllib to avoid InvalidURI error
+            'host':'mongodb+srv://python_ca2_group:'+urllib.parse.quote('Pythonca2@123', safe='')+'@cluster0.sj0kg.mongodb.net/?retryWrites=true&w=majority',
+            'name':'FitnessDatabase',
             'authMechanism': 'SCRAM-SHA-1'
         },
     }

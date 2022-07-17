@@ -1,7 +1,12 @@
+from turtle import clear
 from django.db import models
-
+import jsonfield
 # Create your models here.
 
 class Products(models.Model):
-    productID=models.AutoField(primary_key=True)
-    productName=models.CharField(max_length=20)
+    ID=models.AutoField(primary_key=True)
+    Name=models.CharField(max_length=20)
+    Category=models.CharField(max_length=20)
+    FeaturedImage=models.CharField(max_length=100)
+    Price=models.CharField(max_length=20)
+    StockCount=models.IntegerField()
