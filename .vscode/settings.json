@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/3e6b8b22-6d8d-4176-aad8-6245cbe1480f/microsoft.web/sites/subscriptions/3e6b8b22-6d8d-4176-aad8-6245cbe1480f/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/FitnessWebAPI",
+    "appService.deploySubpath": "."
+}
