@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-3@-iyvk(rmlhpz^(qa#$lcg9m^mygnc7*qb!bxan&@0a1p_j#7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['fitnessfactoryapi.azurewebsites.net']
 
 # added below option to allow the API access to all domains for testing:
 CORS_ORIGIN_ALLOW_ALL=True
