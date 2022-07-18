@@ -24,3 +24,17 @@ def ProductAPI(request,id=0):
             productserializer_json.save()
             return JsonResponse("Item added successfully",safe=False)
         return JsonResponse("Failed to add item",safe=False)
+    
+    elif request.method=='PUT':
+        products_data=JSONParser().parse(request)
+        products=Products.objects.get(ID=products_data['ID'])
+        products_serializer=ProductSerializer(products,data=products_data)
+        if products_serializer.is_valid():
+            products_serializer.save()
+            return JsonResponse("Item Updated",safe=False)
+        return JsonResponse("Failed to Update item")
+    
+    elif request.method=='DELETE':
+        product=Products.objects.get(ID=id)
+        product.delete()
+        return JsonResponse("Item Deleted",safe=False)
