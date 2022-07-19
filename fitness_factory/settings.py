@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-3@-iyvk(rmlhpz^(qa#$lcg9m^mygnc7*qb!bxan&@0a1p_j#7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['FitnessWebAPI.azurewebsites.net']
+ALLOWED_HOSTS = ['*']
+#ALLOWED_HOSTS = ['FitnessWebAPI.azurewebsites.net']
 
 # added below option to allow the API access to all domains for testing:
 CORS_ORIGIN_ALLOW_ALL=True
@@ -46,7 +47,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware'
+    
+   # 'whitenoise.middleware.WhiteNoiseMiddleware'
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

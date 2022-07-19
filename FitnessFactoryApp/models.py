@@ -1,6 +1,7 @@
 from turtle import clear
 from django.db import models
-import jsonfield
+from django.db.models import JSONField
+#import jsonfield
 # Create your models here.
 
 class Products(models.Model):
