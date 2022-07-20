@@ -34,6 +34,22 @@
     cursor: pointer;
   }
 
+  #cartcount {
+    color: brown;
+    font-weight: 500;
+    height: 55px;
+    width: 55px;
+    float: right;
+    cursor: pointer;
+    padding: 30px 28px 12px 5px;
+    display: block;
+    left: auto;
+    right: 0px;
+    margin-top: -8px;
+    margin-right: -10px;
+    z-index: 100;
+  }
+
   .nav {
     margin-right: 170px;
   }

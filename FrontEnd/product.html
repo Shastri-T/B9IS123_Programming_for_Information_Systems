@@ -10,6 +10,8 @@
         <link rel="stylesheet" href="./CSS/webstyle.css">
 
     </head>
+
+    <body>
     <div> 
     <div class="container">
         <div class="nav">
@@ -39,4 +41,190 @@
 
     </div>
 
+    <div id="productdetail" class="main">
+        <div class='breadcrum'> <span> <a class='breadcrumlinks' href='./index.html'> Home </a> /&nbsp;</span> <span
+            id="categorylink"></span> <span id='product_name'> </span> </div>
+        <ul id="product-card" class="cards">
+        </ul>
+      </div>
+  
+    </div>
+    <div id="modal">
+      <div class="modal-content">
+        <div class="header">
+          <h2> </h2>
+          
+        </div>
+        <div class="copy">
+          <br/>
+          <span></span>
+          
+        </div>
+      </div>
+      <div class="overlay"></div>
+    </div>
+  
+    <div id="cart">
+      <div class="main">
+        <div class='breadcrum'> <span> <a class='breadcrumlinks' href='./index.html'> Home </a> </span>
+          <span>&nbsp;/&nbsp;Checkout</span> <span id='product_name'> </span> </div>
+        <ul id="product-card" class="cards">
+        </ul>
+      </div>
+      <br /><br />
+      <div class="cartmsg">There are no items in the cart</div>
+  
+      <div class="row">
+        <div class="col-45">
+          <div class="cartcontainer">
+            <h4><span style="float:left">Cart</span><br/>
+              <span class="price" style="color:black">
+                <i class="fa fa-shopping-cart"></i>
+              </span>
+            </h4>
+            <div id="cartitems"> </div>
+            <hr>
+            <p><span class="totalprice" style="color:black"><b></b></span></p>
+          </div>
+        </div>
+  
+        <div class="col-55">
+          <div class="cartcontainer">
+            <form action="/action_page.php">
+  
+              <div class="row">
+                <div class="col-50">
+                  <h3><span style="float:left">Billing & Payment</span><br/></h3>
+                  <label for="fname"><i class="fa fa-user"></i> Full Name</label>
+                  <input class="forminput" type="text" id="fname" name="firstname" placeholder="Name">
+                  <label for="email"><i class="fa fa-envelope"></i> Email</label>
+                  <input class="forminput" type="text" id="email" name="email" placeholder="name@gmail.com">
+                  <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
+                  <input class="forminput" type="text" id="adr" name="address" placeholder="Dublin1">
+                  <label for="city"><i class="fa fa-institution"></i> City</label>
+                  <input class="forminput" type="text" id="city" name="city" placeholder="Dublin">
+  
+                  <div class="row">
+                    <div class="col-50">
+                      <label for="state">Country</label>
+                      <input class="forminput" type="text" id="state" name="state" placeholder="Ireland">
+                    </div>
+                    <div class="col-50">
+                      <label for="zip">Eir Code</label>
+                      <input class="forminput" type="text" id="zip" name="zip" placeholder="D0101">
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="col-50">
+                  <h3 style="color:white">Payment</h3>
+                  <label for="cname">Name on Credit Card</label>
+                  <input class="forminput" type="text" id="cname" name="cardname" placeholder="Name as per card">
+                  <label for="ccnum">Credit card number</label>
+                  <input class="forminput" type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
+                  <label for="expmonth">Exp Month</label>
+                  <input class="forminput" type="text" id="expmonth" name="expmonth" placeholder="September">
+  
+                  <div class="row">
+                    <div class="col-50">
+                      <label for="expyear">Exp Year</label>
+                      <input class="forminput" type="text" id="expyear" name="expyear" placeholder="2027">
+                    </div>
+                    <div class="col-50">
+                      <label for="cvv">CVV</label>
+                      <input class="forminput" type="text" id="cvv" name="cvv" placeholder="352">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <input type="submit" value="Continue to checkout" class="btn-grad">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./JS/main.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        $(".cartmsg").hide();
+        //cartqstring = "";
+        cartvalue=[];
+        cartval=[];
+        $("#cart").hide();
+        $(".modal").hide();
+        products_list = JSON.parse(localStorage.getItem("json"));
+        cartitemshtml = "";
+        final_rating = 0;
+        actual_rating = 0;
+        cartitemexists=false;
+        
+        if(localStorage.getItem("cartitems")) {
+          product_name = "";
+          product_price = "";
+          totalprice = 0;  
+          cartval =  JSON.parse(localStorage.getItem("cartitems"));
+          $("#cartcount").text(cartval.length);
+  
+          for(var i = 0; i < cartval.length; i++){
+            product_name = products_list.filter(function (data) {
+              return data.id == String(cartval[i].split("-")[0]);
+            })[0].name;
+  
+            product_price = products_list.filter(function (data) {
+              return data.id == String(cartval[i].split("-")[0]);
+            })[0].price;
+  
+            cartitemshtml += "<br/><div><span><img style='height:15px;width:15px' src='./Media/bin.png'></img></span><a id='productlink' href='#'>" + product_name + " (" + cartval[i].split("-")[1] + ")</a> <span class='price'> € " + parseInt(cartval[i].split("-")[1]) * parseInt(product_price.split('€')[1].trim()) + "</span></div><br/>";
+            totalprice += parseInt(cartval[i].split("-")[1]) * parseInt(product_price.split('€')[1].trim());
+          }
+  
+          $("#cartitems").append(cartitemshtml);
+          $('.totalprice').html("<b>Total: € "+totalprice+"</b>");
+  
+         
+        }
+  
+        else {
+          $(".row").hide();
+          $(".cartmsg").show();
+        }
+  
+        if(getUrlParameter("checkout") == "true") {
+          $("#cart").show();
+          $("#productdetail").hide();
+          $('li').removeClass('active');
+          $("#modal h2").text("Checkout")
+          $(".copy span").text("Items reserved successfully");
+        }
+  
+        else {
+          GetProductDetailHtml();        
+        }
+      });
+  
+  
+      $(window).on("load", function () {
+        SetProductDetailCSS();
+        $('li').removeClass('active');
+      });
+  
+  
+      function AddtoCart() {
+        if(localStorage.getItem("cartitems")) {
+          cartvalue = localStorage.getItem("cartitems");
+          cartvalue.push(product_data[0].id + ":" + parseInt($("#productqty :selected").text())); 
+            
+        }
+  
+        else {
+          cartvalue=[];
+          cartvalue[0]=product_data[0].id + "-" + parseInt($("#productqty :selected").text());
+        }
+        localStorage.setItem("cartitems", JSON.stringify(cartvalue));
+        document.location.href = "./product.html?checkout=true";
+      }
+    </script>
+</body>
 </html>
