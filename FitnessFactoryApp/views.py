@@ -5,8 +5,8 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
-from FitnessFactoryApp.models import Products
-from FitnessFactoryApp.serializers import ProductSerializer
+from FitnessFactoryApp.models import Products,Cart
+from FitnessFactoryApp.serializers import ProductSerializer,CartSerializer
 
 # Create your views here.
 @csrf_exempt
@@ -35,6 +35,37 @@ def ProductAPI(request,id=0):
         return JsonResponse("Failed to Update item")
     
     elif request.method=='DELETE':
-        product=Products.objects.get(ID=id)
+        product=Products.objects.get(ID=1)
         product.delete()
+        return JsonResponse("Item Deleted",safe=False)
+
+
+@csrf_exempt
+def CartAPI(request,id=0):
+    if request.method=='GET':
+        cart_json=Cart.objects.all()
+        cartserializer_json=CartSerializer(cart_json,many=True)
+        return JsonResponse(cartserializer_json.data,safe=False)
+        return JsonResponse("Failed to get item",safe=False)
+    
+    elif request.method=='POST':
+        cart_data=JSONParser().parse(request)
+        cartserializer_json=CartSerializer(data=cart_data)
+        if cartserializer_json.is_valid():
+            cartserializer_json.save()
+            return JsonResponse("Item added successfully",safe=False)
+        return JsonResponse("Failed to add item",safe=False)
+    
+    elif request.method=='PUT':
+        cart_data=JSONParser().parse(request)
+        cart=Cart.objects.get(ID=cart_data['ID'])
+        cart_serializer=CartSerializer(cart,data=cart_data)
+        if cart_serializer.is_valid():
+            cart_serializer.save()
+            return JsonResponse("Item Updated",safe=False)
+        return JsonResponse("Failed to Update item")
+    
+    elif request.method=='DELETE':
+        cart=Cart.objects.get(ID=1)
+        cart.delete()
         return JsonResponse("Item Deleted",safe=False)

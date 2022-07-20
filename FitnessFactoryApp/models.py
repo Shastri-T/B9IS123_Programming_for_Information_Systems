@@ -5,9 +5,18 @@ from django.db.models import JSONField
 # Create your models here.
 
 class Products(models.Model):
-    ID=models.AutoField(primary_key=True)
+    ID=models.IntegerField(primary_key=True)
     Name=models.CharField(max_length=20)
     Category=models.CharField(max_length=20)
-    FeaturedImage=models.CharField(max_length=100)
-    Price=models.CharField(max_length=20)
+    FeaturedImage=models.TextField()
+    Price=models.CharField(max_length=10)
     StockCount=models.IntegerField()
+    Description=models.TextField()
+    Features=JSONField()
+    AdditionalImages=JSONField()
+    Reviews=JSONField()
+
+class Cart(models.Model):
+    ID=models.IntegerField(primary_key=True)
+    Quantity=models.IntegerField()
+    Price=models.CharField(max_length=10)
