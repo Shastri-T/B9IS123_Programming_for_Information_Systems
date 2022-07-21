@@ -149,7 +149,6 @@
     <script>
       $(document).ready(function () {
         $(".cartmsg").hide();
-        //cartqstring = "";
         cartvalue=[];
         cartval=[];
         $("#cart").hide();
@@ -190,7 +189,7 @@
             return data.ID == cartval[i].ID;
           })[0].Name;
 
-          product_price = cartval[i].Price
+          product_price = cartval[i].Price;
 
           totalprice += parseInt(cartval[i].Price) * parseInt(cartval[i].Quantity);
 
@@ -221,7 +220,28 @@
   
   
       function AddtoCart() {
-        
+        itemval={
+    		    "ID": product_data[0].ID,
+            "Quantity": parseInt($("#productqty :selected").text()),
+            "Price": product_data[0].Price.split('€')[1].trim()
+		      };		
+
+           $.ajax({
+             type: "POST",
+             url: "http://127.0.0.1:8000/cart/",
+             data: JSON.stringify(itemval),
+             contentType: "application/json; charset=utf-8",
+             crossDomain: true,
+             dataType: "json",
+             success: function (data, status, jqXHR) {
+				      console.log(data);
+              document.location.href = "./product.html?checkout=true";
+             },
+
+             error: function (jqXHR, status) {
+                 console.log(jqXHR);
+             }
+          });
       }
 
     </script>
