@@ -12,8 +12,10 @@
     <body>
         <div class="container">
             <div class="logo" onclick=""></div>     
-
-        </div>
+            <a href="./product.html?checkout=true">
+                <div class="cart"><span id="cartcount"></span></div>
+            </a>
+        
 
         <div class="nav">
             <div class="nav-links">
@@ -24,12 +26,60 @@
             </div>
         </div>
 
+        <div class="hm-middle">
+            <form id="form-searchbar" class="searchbar-form">
+
+                <div class="searchbar-operate-box">
+                    <input type="submit" class="search-button" value="">
+                </div>
+
+                <div class="search-key-box">
+                    <input type="text" id="productsearch" placeholder="search the fitness factory" maxlength="50"
+                        value="" name="SearchText" class="search-key" id="search-key">
+                </div>
+            </form>
+        </div>
+
+        </div>
+
         <div class="main">
             <ul id="productcatalog" class="cards">
             </ul>
         </div>
 
-    </body>
+   
 
-    
+    <script src="./JS/main.js"></script>
+
+    <script>
+
+
+$(document).ready(function () {         
+
+$.ajax({    
+      async: true,  
+      url: "http://127.0.0.1:8000/cart/",   
+      method: "GET",  
+      headers: {  
+      "accept": "application/json;odata=verbose",   
+      "content-type": "application/json;odata=verbose"  
+      },  
+      success: function(data) { 
+        cartval=data;
+        if(cartval.length>0)
+        {
+            cartitemshtml = "";
+            $("#cartcount").text(cartval.length);
+        }
+
+        else{
+            $(".row").hide();
+            $(".cartmsg").show();
+        }        
+      }
+      }); 
+       
+});
+    </script>
+  </body>   
 </html>
