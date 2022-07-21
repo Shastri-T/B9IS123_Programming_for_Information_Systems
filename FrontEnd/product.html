@@ -154,55 +154,64 @@
         cartval=[];
         $("#cart").hide();
         $(".modal").hide();
-        products_list = JSON.parse(localStorage.getItem("json"));
         cartitemshtml = "";
         final_rating = 0;
         actual_rating = 0;
         cartitemexists=false;
-        
-        if(localStorage.getItem("cartitems")) {
-          product_name = "";
-          product_price = "";
-          totalprice = 0;  
-          cartval =  JSON.parse(localStorage.getItem("cartitems"));
-          $("#cartcount").text(cartval.length);
-  
-          for(var i = 0; i < cartval.length; i++){
-            product_name = products_list.filter(function (data) {
-              return data.id == String(cartval[i].split("-")[0]);
-            })[0].name;
-  
-            product_price = products_list.filter(function (data) {
-              return data.id == String(cartval[i].split("-")[0]);
-            })[0].price;
-  
-            cartitemshtml += "<br/><div><span><img style='height:15px;width:15px' src='./Media/bin.png'></img></span><a id='productlink' href='#'>" + product_name + " (" + cartval[i].split("-")[1] + ")</a> <span class='price'> € " + parseInt(cartval[i].split("-")[1]) * parseInt(product_price.split('€')[1].trim()) + "</span></div><br/>";
-            totalprice += parseInt(cartval[i].split("-")[1]) * parseInt(product_price.split('€')[1].trim());
-          }
-  
-          $("#cartitems").append(cartitemshtml);
-          $('.totalprice').html("<b>Total: € "+totalprice+"</b>");
-  
-         
-        }
-  
-        else {
-          $(".row").hide();
-          $(".cartmsg").show();
-        }
-  
+
+        $.ajax({    
+      async: true,  
+      url: "http://127.0.0.1:8000/cart/",   
+      method: "GET",  
+      headers: {  
+      "accept": "application/json;odata=verbose",   
+      "content-type": "application/json;odata=verbose"  
+      },  
+      success: function(data) { 
         if(getUrlParameter("checkout") == "true") {
-          $("#cart").show();
-          $("#productdetail").hide();
-          $('li').removeClass('active');
-          $("#modal h2").text("Checkout")
-          $(".copy span").text("Items reserved successfully");
+        $("#cart").show();
+        $("#productdetail").hide();
+        $('li').removeClass('active');
+        $("#modal h2").text("Checkout")
+        $(".copy span").text("Items reserved successfully");
+      }
+
+        cartval=data;
+
+        if(cartval.length>0) {
+        product_name = "";
+        product_price = "";
+        totalprice = 0;          
+        $("#cartcount").text(cartval.length);
+
+        for(var i = 0; i < cartval.length; i++){
+         
+          product_name = products_list.filter(function (data) {
+            return data.ID == cartval[i].ID;
+          })[0].Name;
+
+          product_price = cartval[i].Price
+
+          totalprice += parseInt(cartval[i].Price) * parseInt(cartval[i].Quantity);
+
+          cartitemshtml += "<br/><div><span><img style='height:15px;width:15px' src='./Media/bin.png'></img></span><a id='productlink' href='#'>" + product_name + " (" + cartval[i].Quantity + ")</a> <span class='price'> € " + parseInt(cartval[i].Price) * parseInt(cartval[i].Quantity) + "</span></div><br/>";
+          
         }
-  
-        else {
-          GetProductDetailHtml();        
-        }
-      });
+
+        $("#cartitems").append(cartitemshtml);
+        $('.totalprice').html("<b>Total: € "+totalprice+"</b>");
+
+       
+      }
+
+      else {
+        $(".row").hide();
+        $(".cartmsg").show();
+      }
+      }
+    });
+
+  }); 
   
   
       $(window).on("load", function () {
@@ -212,19 +221,9 @@
   
   
       function AddtoCart() {
-        if(localStorage.getItem("cartitems")) {
-          cartvalue = localStorage.getItem("cartitems");
-          cartvalue.push(product_data[0].id + ":" + parseInt($("#productqty :selected").text())); 
-            
-        }
-  
-        else {
-          cartvalue=[];
-          cartvalue[0]=product_data[0].id + "-" + parseInt($("#productqty :selected").text());
-        }
-        localStorage.setItem("cartitems", JSON.stringify(cartvalue));
-        document.location.href = "./product.html?checkout=true";
+        
       }
+
     </script>
 </body>
 </html>
