@@ -9,7 +9,7 @@ class Products(models.Model):
     Name=models.CharField(max_length=20)
     Category=models.CharField(max_length=20)
     FeaturedImage=models.TextField()
-    Price=models.CharField(max_length=10)
+    Price=models.IntegerField()
     StockCount=models.IntegerField()
     Description=models.TextField()
     Features=JSONField()
@@ -17,6 +17,6 @@ class Products(models.Model):
     Reviews=JSONField()
 
 class Cart(models.Model):
-    ID=models.IntegerField(primary_key=True)
+    UserID=models.IntegerField()
+    ID=models.IntegerField()
     Quantity=models.IntegerField()
-    Price=models.CharField(max_length=10)
